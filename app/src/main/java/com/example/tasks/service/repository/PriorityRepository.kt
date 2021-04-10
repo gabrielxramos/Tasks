@@ -31,8 +31,10 @@ class PriorityRepository(context: Context){
                     response.body()?.let { mPriorityDatabase.save(it) }
                 }
             }
-
         })
     }
+
+    fun list() = mPriorityDatabase.list()
+
 
 }
