@@ -12,11 +12,17 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PersonRepository(val context: Context){
+class PersonRepository(val context: Context): BaseRepostiroty(context){
 
     private val mRemote = RetrofitClient.createService(PersonService::class.java)
 
     fun login(email: String, password: String, listener: APIListener<HeaderModel>){
+
+        if (!isConnectionAvailable(context)){
+            listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
+            return
+        }
+
         val call: Call<HeaderModel> = mRemote.Login(email, password)
         call.enqueue(object : Callback<HeaderModel>{
             override fun onFailure(call: Call<HeaderModel>, t: Throwable) {
